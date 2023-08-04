@@ -70,6 +70,7 @@ public class CategoryController {
 
     //按下确定更新分类
     @PutMapping
+
     public ResponseResult clickUpdateCategory(@RequestBody Category category){
         return categoryService.clickUpdateCategory(category);
     }
