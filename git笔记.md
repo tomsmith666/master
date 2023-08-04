@@ -4,11 +4,23 @@
 
 ### 注意
 
-在终端中点击右键是粘贴
+1.在终端中点击右键是粘贴
 
-用git add .上传到中转站时，add和.之间要有空格
+2.用git add .上传到中转站时，add和.之间要有空格
 
+3.报错error: failed to push some [refs](https://so.csdn.net/so/search?q=refs&spm=1001.2101.3001.7020) to ‘https://gitee.com/
 
+原因：新建了一个远程仓库，准备把本地内容上传时，忘记把远程仓库的redme.[md文件](https://so.csdn.net/so/search?q=md文件&spm=1001.2101.3001.7020)同步到本地出错
+
+解决方法：git pull --rebase gitee/github  master(将redme.md文件同步到本地)，然后再次执行git push origin master就好了
+
+git pull --rebase github  master
+
+**解决方法**：
+
+**git pull --rebase origin master**
+
+**将redme.md文件同步到本地，然后再次执行****git push origin master就好了**
 
 ### 1.介绍
 
@@ -147,13 +159,57 @@ git reset "文件123.java"
 
 然后push方接受邀请就加入团队了
 
-### 总结
+### 6.总结
 
 先将修改后的代码添加到暂存区，然后提交到本地库。最后通过 git push 链接地址 master 命令push到远程库中
 
 假设在分支a上，add并commit -m到本地仓库分支a 了某个文件demo，之后再创建一个新分支b，此时在分支a 修改demo文件add并commit -m到本地仓库，切换分支 git checkout b，会发现b分支仍保存的是没被更改过的demo文件，因为在创建分支b的时候已经有了两条时间线了
 
 ### <img src="D:\桌面下载的文件\Git\git图片\Snipaste_2023-08-02_19-09-34.jpg" alt="Snipaste_2023-08-02_19-09-34" style="zoom:50%;" />
+
+### 7.用idea将项目更新到github上
+
+**1.通过File-settings打开设置，配置刚才已经安装好的git.exe，点击Test测试连接是否成功。**
+
+如图所示：
+
+<img src="https://img-blog.csdnimg.cn/ca84ecca8d3840a8bc7cc5eec92cf064.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc2hhbmdmZW5neGlh,size_20,color_FFFFFF,t_70,g_se,x_16" alt="img" style="zoom: 80%;" />
+
+**2.从远程库拉取项目：点击File-New-Project from Version Control弹出如下窗口，输入远程库地址以及空的本地目录点击Clone按钮**
+
+<img src="https://img-blog.csdnimg.cn/6d5cec82265e45d18ccd7cf3452cdc22.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc2hhbmdmZW5neGlh,size_20,color_FFFFFF,t_70,g_se,x_16" style="zoom:80%;" />
+
+<img src="https://img-blog.csdnimg.cn/283722837e804c868c1e008031758196.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc2hhbmdmZW5neGlh,size_20,color_FFFFFF,t_70,g_se,x_16" alt="img" style="zoom:67%;" />
+
+Github还要通过token进行与idea的绑定登录
+
+<img src="https://img-blog.csdnimg.cn/6f461ba16ce149578f79e14ae11aae3a.png" alt="在这里插入图片描述" style="zoom:50%;" />
+
+**3.切换到开发分支（develop）**
+鼠标移上菜单栏的Git，点击Branches，弹框如图，
+
+远程分支同步到本地：假设本地只有一个master主分支，远程分支已经有master主分支、develop开发分支，点击远程develop-checkout即可在本地创建并切换到一个develop分支并将远程develop分支内容更新到本地develop分支。
+
+本地分支同步到远程：远程库没有develop分支，可以点击弹窗中的New Branch新建一个本地develop分支，通过push推送到远端
+
+注：Local Branches为本地分支，Remote Branches为远程分支。
+
+![img](https://img-blog.csdnimg.cn/7952367d8cd64ffabf843c6407da5118.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc2hhbmdmZW5neGlh,size_20,color_FFFFFF,t_70,g_se,x_16)
+
+ <img src="https://img-blog.csdnimg.cn/991b2f6e08a043c1bd1ebd8e2dfe859e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc2hhbmdmZW5neGlh,size_11,color_FFFFFF,t_70,g_se,x_16" alt="img" style="zoom: 80%;" /><img src="https://img-blog.csdnimg.cn/6b288eb84f184ee5a27c832eb14d9b70.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc2hhbmdmZW5neGlh,size_20,color_FFFFFF,t_70,g_se,x_16" alt="img" style="zoom: 67%;" />
+
+ **4.协同合作常用流程：**
+
+先更新(Update) 再提交(Commit) 再推送(Push)
+本地写完代码想要推送到远程，需要先（Update Projet）将最新远程代码同步到本地，再Commit自己代码部分（没有add的话需要先Git add）输入提交备注（Commit）提交后（Push）推送到远程库，或直接点击（Commit And Push）。
+
+![img](https://img-blog.csdnimg.cn/fcf10e84ce07408b8e64f048be9cc5b8.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc2hhbmdmZW5neGlh,size_6,color_FFFFFF,t_70,g_se,x_16)
+
+或者：
+
+![img](https://img-blog.csdnimg.cn/44817312689c4fbf81c36c33500c98a6.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc2hhbmdmZW5neGlh,size_14,color_FFFFFF,t_70,g_se,x_16)
+
+ 
 
 ### 其他指令
 
