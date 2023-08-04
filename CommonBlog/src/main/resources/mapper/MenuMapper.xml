@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.mapper.MenuMapper">
+<!--@GetMapping("getInfo")-->
+    <select id="getParamsByUserId" resultType="java.lang.String">
+--        先去sys_user_role表根据userid查到roleid(左连接)，到sys_role_menu表根据roleid查到menuid(左连接)，
+--        where进一步筛选查询perms字段的值
+        SELECT DISTINCT me.perms
+        FROM sys_user_role ur
+                 LEFT JOIN sys_role_menu rm ON ur.role_id=rm.role_id
+                 LEFT JOIN sys_menu me ON rm.menu_id=me.id
+        WHERE ur.user_id=#{userId}
+--           这里'C','F'代表路由的菜单和按钮
+          AND me.menu_type IN('C','F')
+          AND me.del_flag = 0
+          AND me.`status`=0
+    </select>
+
+<!--@GetMapping("getRouters")如果是超级管理员(userId为1)-->
+    <select id="selectAllRouterMenu" resultType="com.blog.doman.entity.Menu">
+
+        SELECT  DISTINCT m.id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status,
+                         IFNULL(m.perms,'') AS perms, m.is_frame,  m.menu_type, m.icon, m.order_num, m.create_time
+        FROM  sys_menu m
+        WHERE
+--           这里'C','M'代表路由的目录和菜单
+          m.menu_type IN('C','M')
+          AND m.del_flag = 0
+          AND m.`status`=0
+--         //左侧菜单栏排序，先看parentid，一样则看ordernum，越小的越靠前
+        ORDER BY m.parent_id,m.order_num
+    </select>
+
+<!--@GetMapping("getRouters")是其他身份-->
+    <select id="selectRouterMenuTreeByUserId" resultType="com.blog.doman.entity.Menu">
+
+        SELECT  DISTINCT m.id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status,
+                         IFNULL(m.perms,'') AS perms, m.is_frame,  m.menu_type, m.icon, m.order_num, m.create_time
+        FROM sys_user_role ur
+                 LEFT JOIN sys_role_menu rm ON ur.role_id=rm.role_id
+                 LEFT JOIN sys_menu m ON rm.menu_id=m.id
+        WHERE ur.user_id=#{userId}
+--           这里'C','M'代表路由的目录和菜单
+          AND m.menu_type IN('C','M')
+          AND m.del_flag = 0
+          AND m.`status`=0
+--         //左侧菜单栏排序，先看parentid，一样则看ordernum，越小的越靠前
+        ORDER BY m.parent_id,m.order_num
+    </select>
+
+<!--新增角色(能直接设置角色所关联的菜单权限)-->
+    <select id="selectAllRouterMenuTwo" resultType="com.blog.doman.entity.Menu">
+        SELECT
+            DISTINCT m.id, m.parent_id, m.menu_name, m.path, m.component, m.visible, m.status, IFNULL(m.perms,'') AS perms, m.is_frame,  m.menu_type, m.icon, m.order_num, m.create_time
+        FROM
+            `sys_menu` m
+        WHERE
+            m.`menu_type` IN ('C','M','F') AND
+            m.`status` = 0 AND
+            m.`del_flag` = 0
+        ORDER BY
+            m.parent_id,m.order_num
+    </select>
+    <select id="getcheckedKeys" resultType="java.lang.Long">
+        SELECT DISTINCT RM.menu_id
+        FROM sys_role RO
+                 LEFT JOIN sys_role_menu RM
+                           ON RO.id =RM.role_id
+        WHERE RO.id=#{Id}
+
+    </select>
+</mapper>
