@@ -216,6 +216,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,Article> imple
         articleMapper.delete(articleLambdaQueryWrapper);
         return ResponseResult.okResult();
     }
+
+
+    //这是一个test类，希望能够输入对应的id后缀的网址，在网页中显示出id数字
+    @Override
+    public  ResponseResult inputTestId(Long id) {
+        List<String> strings = articleMapper.inputTestId(id);
+        return ResponseResult.okResult(strings);
+    }
 }
 
 

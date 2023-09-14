@@ -6,8 +6,11 @@ import com.blog.doman.entity.Menu;
 import com.blog.doman.vo.ArticleListParmer;
 import com.blog.service.ArticleService;
 import com.blog.service.MenuService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/content/article")
@@ -27,10 +30,10 @@ public class ArticleController {
         return articleService.pageArticlreList(pageNum,pageSize,title,summary);
     }
     //查询文章详情接口
-    @GetMapping("{id}")
-    public ResponseResult getInfoById(@PathVariable Long id){
-        return articleService.getInfoById(id);
-    }
+//    @GetMapping("{id}")
+//    public ResponseResult getInfoById(@PathVariable Long id){
+//        return articleService.getInfoById(id);
+//    }
     //点击后更新文章接口
     @PutMapping
     public ResponseResult articleput(@RequestBody ArticleListParmer articleListParmer){
@@ -43,5 +46,10 @@ public class ArticleController {
     }
 
 
-
+//    这是一个test类，希望能够输入对应的id后缀的网址，在网页中显示出id数字
+    @GetMapping("{id}")
+    public ResponseResult inputTestId(@PathVariable Long id){
+        //这是一个test类，希望能够输入对应的id后缀的网址，在网页中显示出id数字
+        return articleService.inputTestId(id);
+    }
 }

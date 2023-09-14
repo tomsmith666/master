@@ -37,8 +37,8 @@ public class ArticleController {
     }
 
     //更新浏览量(更新的是Redis的数据，会定期放到数据库里面)
-    @PutMapping("updateViewCount/{id}")
-    public ResponseResult updateViewCount(@PathVariable("id")Long id){
-        return articleService.updateViewCount(id);
-    }
+//    @PutMapping("updateViewCount/{id}")
+//    public ResponseResult updateViewCount(@PathVariable("id")Long id){
+//        return articleService.updateViewCount(id);
+//    }
 }

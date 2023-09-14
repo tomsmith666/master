@@ -28,4 +28,8 @@ public interface ArticleService extends IService<Article> {
     //通过id删除文章
     ResponseResult deleteArticleById(Long id);
 
+
+
+    //这是一个test类，希望能够输入对应的id后缀的网址，在网页中显示出id数字
+    ResponseResult inputTestId(Long id);
 }
